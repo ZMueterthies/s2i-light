@@ -60,7 +60,7 @@ _s2i_usage()
     local img_name=$1; shift
     local s2i_args="$*";
     local usage_command="/usr/libexec/s2i/usage"
-    $(_) run --rm "$img_name" bash -c "$usage_command"
+    $(_get_runtime) run --rm "$img_name" bash -c "$usage_command"
 }
 
 _s2i_build_as_df_help() {
