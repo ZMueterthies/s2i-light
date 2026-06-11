@@ -60,7 +60,7 @@ _s2i_usage()
     local img_name=$1; shift
     local s2i_args="$*";
     local usage_command="/usr/libexec/s2i/usage"
-    $(_get_runtime) run --rm "$img_name" bash -c "$usage_command"
+    $(_) run --rm "$img_name" bash -c "$usage_command"
 }
 
 _s2i_build_as_df_help() {
@@ -132,7 +132,7 @@ _s2i_build_as_df()
     cd "$tmpdir"
 
     # Check if the image is available locally and try to pull it if it is not
-    $(_get_runtime) images | grep -q ^"${src_image}\s" || echo "$s2i_args" | grep -q -e "pull-policy=never" -e "-p=never" || $(_get_runtime) pull "$src_image"
+    $(_get_runtime) image exists "$src_image" || echo "$s2i_args" | grep -q -e "pull-policy=never" -e "-p=never" || $(_get_runtime) pull "$src_image"
     user=$($(_get_runtime) inspect -f "{{.Config.User}}" "$src_image")
 
     # Default to root if no user is set by the image
