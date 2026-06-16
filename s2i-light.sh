@@ -132,7 +132,7 @@ _s2i_build_as_df()
     cd "$tmpdir"
 
     # Check if the image is available locally and try to pull it if it is not
-    $(_get_runtime) image exists "$src_image" || echo "$s2i_args" | grep -q -e "pull-policy=never" -e "-p=never" || $(_get_runtime) pull "$src_image"
+    $(_get_runtime) image inspect "$src_image" >/dev/null 2>&1 || echo "$s2i_args" | grep -q -e "pull-policy=never" -e "-p=never" || $(_get_runtime) pull "$src_image"
     user=$($(_get_runtime) inspect -f "{{.Config.User}}" "$src_image")
 
     # Default to root if no user is set by the image
